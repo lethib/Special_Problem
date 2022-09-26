@@ -24,10 +24,10 @@ class Sample:
         self.table[0].append(pixel_up)
         self.table[1].append(pixel_down)
 
-    def complete_sample(self):
-        for i in range(self.width-1):
-            self.table[0].append(i)
-            self.table[1].append(i+self.width)
+    def complete_sample_init(self, row_up, row_down):
+        for i in range(self.width):
+            self.table[0].append(row_up[i])
+            self.table[1].append(row_down[i])
 
 
 def get_rgb_values(img_path):
@@ -49,7 +49,5 @@ def delta_rgb(pix_1, pix_2):
 if __name__ == '__main__':
    res, shape = get_rgb_values('img_res/sobel.png')
    sample_test = Sample(8,2)
-   sample_test.complete_sample()
-   sample_test.add_pxl([1,2],[3,4])
-   sample_test.add_pxl([45,67],[89,100])
+   sample_test.complete_sample_init(res[49], res[50])
    print(res[50], shape, sample_test.table)
