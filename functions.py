@@ -11,7 +11,7 @@ class Sample:
 
     def create_sample(self):
         self.table = [[] for i in range(self.height)]
-        print(self.table)
+        #print(self.table)
         return self.table
     
     def add_pxl(self,pixel_up, pixel_down):
@@ -28,6 +28,13 @@ class Sample:
         for i in range(self.width):
             self.table[0].append(row_up[i])
             self.table[1].append(row_down[i])
+    
+    def get_delta_values(self):
+        rgb_values = np.zeros((2,int(self.width/2)))
+        for k in range(len(rgb_values[0])):
+            rgb_values[0,k] = delta_rgb(self.table[0][2*k], self.table[0][2*k+1])
+            rgb_values[1,k] = delta_rgb(self.table[1][2*k], self.table[1][2*k+1])
+        return rgb_values
 
 
 def get_rgb_values(img_path):
@@ -36,7 +43,7 @@ def get_rgb_values(img_path):
     width, height = img.size
     pxl_val = list(img.getdata())
     pxl_val = np.array(pxl_val).reshape(height,width,4) # 4 because it's RGBA (oppacity)
-    print(width, height)
+    #print(width, height)
     return pxl_val, pxl_val.shape
 
 def delta_rgb(pix_1, pix_2):
@@ -49,5 +56,7 @@ def delta_rgb(pix_1, pix_2):
 if __name__ == '__main__':
    res, shape = get_rgb_values('img_res/sobel.png')
    sample_test = Sample(8,2)
-   sample_test.complete_sample_init(res[49], res[50])
-   print(res[50], shape, sample_test.table)
+   sample_test.complete_sample_init(res[0], res[1])
+   values = sample_test.get_delta_values()
+   #print(res[50], shape, sample_test.table)
+   print(values)
