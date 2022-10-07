@@ -23,7 +23,7 @@ for i in range(len(img_scrapped) - 1):
 list_abs(diff_values)
 
 
-# We take the max value
+# We take the max value position
 max_val_pos = {}
 for row, list_val in enumerate(diff_values):
     if len(list_val) == 0:
