@@ -53,10 +53,17 @@ def delta_rgb(pix_1, pix_2):
     delta = np.sqrt((r2-r1)**2 + (g2-g1)**2 + (v2-v1)**2)
     return delta
 
+def list_abs(list): 
+    for sublist in list:
+        for i in range(len(sublist)):
+            sublist[i] = abs(sublist[i])
+
 if __name__ == '__main__':
    res, shape = get_rgb_values('img_res/sobel.png')
    sample_test = Sample(8,2)
    sample_test.complete_sample_init(res[0], res[1])
    values = sample_test.get_delta_values()
-   #print(res[50], shape, sample_test.table)
+   mean_i = np.mean(values)
+   print(res[50], shape, sample_test.table)
    print(values)
+   print(mean_i)
