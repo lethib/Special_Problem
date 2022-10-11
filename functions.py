@@ -25,6 +25,8 @@ class Sample:
         self.table[1].append(pixel_down)
 
     def complete_sample_init(self, row_up, row_down):
+        self.table[0].clear()
+        self.table[1].clear()
         for i in range(self.width):
             self.table[0].append(row_up[i])
             self.table[1].append(row_down[i])
@@ -59,11 +61,34 @@ def list_abs(list):
             sublist[i] = abs(sublist[i])
 
 if __name__ == '__main__':
-   res, shape = get_rgb_values('img_res/sobel.png')
-   sample_test = Sample(8,2)
-   sample_test.complete_sample_init(res[0], res[1])
-   values = sample_test.get_delta_values()
-   mean_i = np.mean(values)
-   print(res[50], shape, sample_test.table)
-   print(values)
-   print(mean_i)
+    sample = Sample(8,2)
+    img_scrp, shape = get_rgb_values('img_res/sobel.png')
+    diff_val = [[] for i in range(2)]
+    # img_scrp[0] length = 82
+    idx_diff = 0
+    for i in range(0, 3, sample.height):
+        sample.complete_sample_init(img_scrp[i], img_scrp[i+1])
+        print("***")
+        print(np.array(sample.table))
+        for j in range(sample.width, 11):
+            delta_val = sample.get_delta_values()
+            mean_j = np.mean(delta_val)
+            print(f"*** Delta values for {j}:")
+            print(delta_val, mean_j)
+            sample.add_pxl(img_scrp[i,j], img_scrp[i+1,j])
+            delta_val = sample.get_delta_values()
+            mean_jpp = np.mean(delta_val)
+            print(f"*** Delta values for {j+1}:")
+            print(delta_val, mean_jpp)
+            diff_val[idx_diff].append(abs(mean_jpp - mean_j))
+            print(f"*** -> Diff mean values : {diff_val}")
+        idx_diff += 1
+
+    # print("*** Comparaison")
+    # print(np.array(img_scrp[0][:8]))
+    # print("\n")
+    # print(np.array(img_scrp[1][:8]))
+    # print("\n")
+    # print(np.array(img_scrp[2][:8]))
+    # print("\n")
+    # print(np.array(img_scrp[3][:8]))

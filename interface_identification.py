@@ -17,10 +17,7 @@ for i in range(len(img_scrapped) - 1):
         sample.add_pxl(img_scrapped[i,j], img_scrapped[i+1,j])
         rgb_values = sample.get_delta_values()
         mean_jpp = np.mean(rgb_values)
-        diff_values[i].append(mean_jpp - mean_j)
-
-#Transform into absolute values
-list_abs(diff_values)
+        diff_values[i].append(abs(mean_jpp - mean_j))
 
 
 # We take the max value position
