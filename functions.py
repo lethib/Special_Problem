@@ -55,11 +55,6 @@ def delta_rgb(pix_1, pix_2):
     delta = np.sqrt((r2-r1)**2 + (g2-g1)**2 + (v2-v1)**2)
     return delta
 
-def list_abs(list): 
-    for sublist in list:
-        for i in range(len(sublist)):
-            sublist[i] = abs(sublist[i])
-
 if __name__ == '__main__':
     sample = Sample(8,2)
     img_scrp, shape = get_rgb_values('img_res/sobel.png')
