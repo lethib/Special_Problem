@@ -1,5 +1,4 @@
 from functions import *
-import matplotlib.pyplot as plt
 
 # Sample creation
 sample = Sample(8, 2)

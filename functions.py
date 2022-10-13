@@ -1,5 +1,7 @@
 import numpy as np
 from PIL import Image
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 class Sample:
     
@@ -58,26 +60,43 @@ def delta_rgb(pix_1, pix_2):
 if __name__ == '__main__':
     sample = Sample(8,2)
     img_scrp, shape = get_rgb_values('img_res/sobel.png')
-    diff_val = [[] for i in range(2)]
+    diff_val = [[] for i in range(shape[0])]
     # img_scrp[0] length = 82
     idx_diff = 0
-    for i in range(0, 3, sample.height):
+    for i in range(0, len(img_scrp)-1, sample.height):
         sample.complete_sample_init(img_scrp[i], img_scrp[i+1])
-        print("***")
-        print(np.array(sample.table))
-        for j in range(sample.width, 11):
+        #print("***")
+        #print(np.array(sample.table))
+        for j in range(sample.width, len(img_scrp[0])):
             delta_val = sample.get_delta_values()
             mean_j = np.mean(delta_val)
-            print(f"*** Delta values for {j}:")
-            print(delta_val, mean_j)
+            #print(f"*** Delta values for {j}:")
+            #print(delta_val, mean_j)
             sample.add_pxl(img_scrp[i,j], img_scrp[i+1,j])
             delta_val = sample.get_delta_values()
             mean_jpp = np.mean(delta_val)
-            print(f"*** Delta values for {j+1}:")
-            print(delta_val, mean_jpp)
+            #print(f"*** Delta values for {j+1}:")
+            #print(delta_val, mean_jpp)
             diff_val[idx_diff].append(abs(mean_jpp - mean_j))
-            print(f"*** -> Diff mean values : {diff_val}")
+            #print(f"*** -> Diff mean values : {diff_val}")
         idx_diff += 1
+    
+    # We take the max value position
+    max_val_pos = {}
+    for row, list_val in enumerate(diff_val):
+        if len(list_val) == 0: #Check is there is any empty list
+            continue
+        maxi = max(list_val)
+        max_val_pos[shape[0] - row*2] = list_val.index(maxi)
+        #print(max_val_pos)
+
+    print(max_val_pos)
+
+    img = mpimg.imread('img_res/sobel.png')
+    plt.imshow(img, extent=[0, len(img_scrp[0]), 0, len(img_scrp)])
+    plt.scatter(max_val_pos.values(), max_val_pos.keys(), c='r')
+    plt.xlim(0, len(img_scrp[0]))
+    plt.show()
 
     # print("*** Comparaison")
     # print(np.array(img_scrp[0][:8]))
