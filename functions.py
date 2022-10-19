@@ -1,5 +1,7 @@
 import numpy as np
 from PIL import Image
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 class Sample:
     
@@ -25,6 +27,8 @@ class Sample:
         self.table[1].append(pixel_down)
 
     def complete_sample_init(self, row_up, row_down):
+        self.table[0].clear()
+        self.table[1].clear()
         for i in range(self.width):
             self.table[0].append(row_up[i])
             self.table[1].append(row_down[i])
@@ -53,17 +57,52 @@ def delta_rgb(pix_1, pix_2):
     delta = np.sqrt((r2-r1)**2 + (g2-g1)**2 + (v2-v1)**2)
     return delta
 
-def list_abs(list): 
-    for sublist in list:
-        for i in range(len(sublist)):
-            sublist[i] = abs(sublist[i])
-
 if __name__ == '__main__':
-   res, shape = get_rgb_values('img_res/sobel.png')
-   sample_test = Sample(8,2)
-   sample_test.complete_sample_init(res[0], res[1])
-   values = sample_test.get_delta_values()
-   mean_i = np.mean(values)
-   print(res[50], shape, sample_test.table)
-   print(values)
-   print(mean_i)
+    sample = Sample(8,2)
+    img_scrp, shape = get_rgb_values('img_res/sobel.png')
+    diff_val = [[] for i in range(shape[0])]
+    # img_scrp[0] length = 82
+    idx_diff = 0
+    for i in range(0, len(img_scrp)-1, sample.height):
+        sample.complete_sample_init(img_scrp[i], img_scrp[i+1])
+        #print("***")
+        #print(np.array(sample.table))
+        for j in range(sample.width, len(img_scrp[0])):
+            delta_val = sample.get_delta_values()
+            mean_j = np.mean(delta_val)
+            #print(f"*** Delta values for {j}:")
+            #print(delta_val, mean_j)
+            sample.add_pxl(img_scrp[i,j], img_scrp[i+1,j])
+            delta_val = sample.get_delta_values()
+            mean_jpp = np.mean(delta_val)
+            #print(f"*** Delta values for {j+1}:")
+            #print(delta_val, mean_jpp)
+            diff_val[idx_diff].append(abs(mean_jpp - mean_j))
+            #print(f"*** -> Diff mean values : {diff_val}")
+        idx_diff += 1
+    
+    # We take the max value position
+    max_val_pos = {}
+    for row, list_val in enumerate(diff_val):
+        if len(list_val) == 0: #Check is there is any empty list
+            continue
+        maxi = max(list_val)
+        max_val_pos[shape[0] - row*2] = list_val.index(maxi)
+        #print(max_val_pos)
+
+    print(max_val_pos)
+
+    img = mpimg.imread('img_res/sobel.png')
+    plt.imshow(img, extent=[0, len(img_scrp[0]), 0, len(img_scrp)])
+    plt.scatter(max_val_pos.values(), max_val_pos.keys(), c='r')
+    plt.xlim(0, len(img_scrp[0]))
+    plt.show()
+
+    # print("*** Comparaison")
+    # print(np.array(img_scrp[0][:8]))
+    # print("\n")
+    # print(np.array(img_scrp[1][:8]))
+    # print("\n")
+    # print(np.array(img_scrp[2][:8]))
+    # print("\n")
+    # print(np.array(img_scrp[3][:8]))
