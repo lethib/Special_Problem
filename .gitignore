@@ -5,8 +5,8 @@ __pycache__/
 
 # Files
 **/.DS_Store
-img_res/**
-/untracked_files/**
+**/img_res/**
+**/untracked_files/**
 
 # C extensions
 *.so
