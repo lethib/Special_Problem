@@ -28,10 +28,10 @@ X, Y = scatter_plot(edges_gaussian)
 plt.waitforbuttonpress()
 while True:
     points = []
-    while len(points) < 15:
+    while len(points) < 5:
         plt.title("Select 15 points with the mouse")
         plt.scatter(X, Y)
-        points = np.asarray(plt.ginput(15, timeout=0)) #never times out
+        points = np.asarray(plt.ginput(5, timeout=0)) #never times out
 
     plt.title("Key click to leave")
 
@@ -39,12 +39,22 @@ while True:
     plt.draw()
 
     if plt.waitforbuttonpress():
+        plt.close('all')
         break
 
 plt.close('all')
 
-plot_validation_curve(PolynomialRegression(0), points[:,0], points[:,1])
+# plot_validation_curve(PolynomialRegression(0), points[:,0], points[:,1])
+# plt.close('all')
+# deg = get_best_degree(PolynomialRegression(0), points[:,0], points[:,1])
 
-deg = get_best_degree(PolynomialRegression(0), points[:,0], points[:,1])
+X_test = np.arange(30, 130)
 
-print(deg)
+y_pred, r2 = fit_equation(2, points[:,0], points[:,1], X_test)
+
+print(f"R^2 score: {r2}")
+
+plt.title(f"Polynomial Regression of 2 degree - R^2 score: {r2}")
+plt.scatter(X, Y)
+plt.plot(X_test, y_pred, color='r')
+plt.show()

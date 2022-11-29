@@ -2,6 +2,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import validation_curve, GridSearchCV
+from sklearn.metrics import r2_score
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -43,6 +44,13 @@ def get_best_degree(model, X, y) -> int:
     grid = GridSearchCV(model, param_grid)
     grid.fit(X[:, None], y)
     return grid.best_params_["polynomialfeatures__degree"]
+
+def fit_equation(degree, X, y, X_test):
+    model = PolynomialRegression(degree)
+    model.fit(X[:, None], y)
+    y_pred = model.predict(X_test[:, None])
+    r2 = r2_score(y, y_pred[:len(y)])
+    return y_pred, r2
 
 if __name__ == '__main__':
     print("Hello World !")
