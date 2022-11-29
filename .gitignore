@@ -7,6 +7,8 @@ __pycache__/
 **/.DS_Store
 **/img_res/**
 **/untracked_files/**
+ginput_manual_clabel_sgskip.py
+nb_new_method.ipynb
 
 # C extensions
 *.so
