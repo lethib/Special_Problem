@@ -28,10 +28,10 @@ X, Y = scatter_plot(edges_gaussian)
 plt.waitforbuttonpress()
 while True:
     points = []
-    while len(points) < 5:
+    while len(points) < 15:
         plt.title("Select 15 points with the mouse")
         plt.scatter(X, Y)
-        points = np.asarray(plt.ginput(5, timeout=0)) #never times out
+        points = np.asarray(plt.ginput(15, timeout=0)) #never times out
 
     plt.title("Key click to leave")
 
@@ -44,8 +44,8 @@ while True:
 
 plt.close('all')
 
-# plot_validation_curve(PolynomialRegression(0), points[:,0], points[:,1])
-# plt.close('all')
+plot_validation_curve(PolynomialRegression(0), points[:,0], points[:,1])
+plt.close('all')
 # deg = get_best_degree(PolynomialRegression(0), points[:,0], points[:,1])
 
 X_test = np.arange(30, 130)
