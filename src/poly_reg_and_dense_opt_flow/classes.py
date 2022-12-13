@@ -41,6 +41,7 @@ class PolynomialRegression():
     ### Methods: 
 
     - `plot_validation_curve`: plot the validation curve of the model.
+    - `plot_regression`: plot the regression on the processed image.
     """
 
     def __init__(self, x_coor, y_coor, x_test_coor) -> None:
@@ -71,6 +72,12 @@ class PolynomialRegression():
         y_pred = self.model.predict(self.X_test[:, None])
         r2 = r2_score(self.y, self.y_pred[:len(self.y)])
         return y_pred, r2
+
+    def plot_regression(self, processed_img):
+        plt.title(f"Polynomial Regression of 2 degree - R^2 score: {self.r2}")
+        plt.imshow(processed_img)
+        plt.plot(self.X_test, self.y_pred, color='r')
+        plt.show()
 
 
 class CreateVideos():
@@ -115,10 +122,8 @@ class CreateVideos():
         # Lexicographically order your input array of strings (e.g. respect numbers in strings while ordering)
         files.sort(key=lambda x:[int(c) if c.isdigit() else c for c in re.split(r'(\d+)', x)])
 
-        i=1
-        for filename in files:
+        for i, filename in enumerate(files):
             img = cv2.imread(filename)
             gaussian = cv2.GaussianBlur(img, (7,7), 0)
             edges_gaussian = cv2.Canny(gaussian, threshold1=20, threshold2=40)
             cv2.imwrite(output_img_path + f'{i}.jpg', edges_gaussian)
-            i += 1
