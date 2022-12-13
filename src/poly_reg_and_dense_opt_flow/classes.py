@@ -43,7 +43,7 @@ class PolynomialRegression():
     - `plot_regression`: plot the regression on the processed image.
     """
 
-    def __init__(self, x_coor, y_coor, x_test_coor) -> None:
+    def __init__(self, x_coor: list, y_coor: list, x_test_coor: list) -> None:
         self.X = x_coor
         self.y = y_coor
         self.X_test = x_test_coor
@@ -99,11 +99,11 @@ class CreateVideos():
     - `edges_frames`: apply the Canny Edge Detection on all the frame of the original video
     """
 
-    def __init__(self, vid_size, frame_per_sec) -> None:
+    def __init__(self, vid_size: tuple, frame_per_sec: int) -> None:
         self.frame_size = vid_size
         self.frame_per_sec = frame_per_sec
     
-    def video(self, input_img_path, output_vid_path) -> None:
+    def video(self, input_img_path: str, output_vid_path: str) -> None:
         out = cv2.VideoWriter(output_vid_path, cv2.VideoWriter_fourcc(*'mp4v'), self.frame_per_sec, self.frame_size)
 
         files = glob.glob(input_img_path)
@@ -116,7 +116,7 @@ class CreateVideos():
         
         out.release()
     
-    def edges_frames(self, input_img_path, output_img_path) -> None:
+    def edges_frames(self, input_img_path: str, output_img_path: str) -> None:
         files = glob.glob(input_img_path)
         # Lexicographically order your input array of strings (e.g. respect numbers in strings while ordering)
         files.sort(key=lambda x:[int(c) if c.isdigit() else c for c in re.split(r'(\d+)', x)])
