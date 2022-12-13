@@ -3,7 +3,6 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import validation_curve, GridSearchCV
-from sklearn.metrics import r2_score
 
 ### Import Numpy and Matplotlib to handle and visualise the data ###
 import numpy as np
@@ -36,7 +35,7 @@ class PolynomialRegression():
     - `X_test` (list): list of the points used to plot the Polynomial Regression.
     - `model`: the model used.
     - `y_pred` (list): list of the point's y-coordinates predicted by the model.
-    - `r2` (float): $R^2$ score of the regression
+    - `coef` (list): coefficients of the polynomial regression
     ---
     ### Methods: 
 
@@ -49,7 +48,7 @@ class PolynomialRegression():
         self.y = y_coor
         self.X_test = x_test_coor
         self.model = self.create_model()
-        self.y_pred, self.r2 = self.fit_equation()
+        self.y_pred, self.coef = self.fit_equation()
 
     def create_model(self):
         return make_pipeline(PolynomialFeatures(2), LinearRegression())
@@ -70,11 +69,11 @@ class PolynomialRegression():
     def fit_equation(self):
         self.model.fit(self.X[:, None], self.y)
         y_pred = self.model.predict(self.X_test[:, None])
-        r2 = r2_score(self.y, self.y_pred[:len(self.y)])
-        return y_pred, r2
+        coef = self.model[1].coef_
+        return y_pred, coef
 
     def plot_regression(self, processed_img):
-        plt.title(f"Polynomial Regression of 2 degree - R^2 score: {self.r2}")
+        plt.title(f"Polynomial Regression of 2 degree \n $y = {round(self.coef[2], 4)}x^2 + {round(self.coef[1], 4)}x + {round(self.coef[0], 4)}$")
         plt.imshow(processed_img)
         plt.plot(self.X_test, self.y_pred, color='r')
         plt.show()
@@ -126,4 +125,13 @@ class CreateVideos():
             img = cv2.imread(filename)
             gaussian = cv2.GaussianBlur(img, (7,7), 0)
             edges_gaussian = cv2.Canny(gaussian, threshold1=20, threshold2=40)
-            cv2.imwrite(output_img_path + f'{i}.jpg', edges_gaussian)
+            cv2.imwrite(output_img_path + f'{i+1}.jpg', edges_gaussian)
+
+if __name__ == '__main__':
+    X = np.arange(1, 10)
+    y = np.log(X)
+    X_test = np.arange(1,15)
+    reg = PolynomialRegression(X, y, X_test)
+    img = cv2.imread('/Users/thibault/Documents/Georgia Tech/GTL/Special_Problem/content/img/edges_detected/1.jpg')
+    reg.plot_validation_curve()
+    print(len(reg.coef))
