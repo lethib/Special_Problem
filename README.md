@@ -21,7 +21,7 @@ The idea was to compare mean intensity of pixel's samples by :
 
 For each line of the image, we keep the maximum value of this difference (i.e. the higher contrast). 
 
-However, this did not work well. The source still exists in the [`sobel_pxl_intensity`](https://github.gatech.edu/tmroz3/Special_Problem/tree/dev/src/sobel_pxl_intensity) folder. 
+However, this did not work well. The source still exists in the [`sobel_pxl_intensity`](https://github.gatech.edu/tmroz3/Special_Problem/tree/main/src/sobel_pxl_intensity) folder. 
 
 ### Polynomial Regression and Dense Optical Flow
 
@@ -32,4 +32,4 @@ Librairies used are the following ones:
 - [**scikit-learn**](https://scikit-learn.org/stable/) for the Machine Learning part
 - [**OpenCV**](https://opencv.org) for the Computer Vision and Image Handling parts
 
-Please refer to the wiki of the project to have the notice of the project.
+Please refer to the [wiki](https://github.gatech.edu/tmroz3/Special_Problem/wiki) of the project to have the notice of the project.
