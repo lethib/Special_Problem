@@ -9,6 +9,7 @@ __pycache__/
 **/untracked_files/**
 ginput_manual_clabel_sgskip.py
 nb_new_method.ipynb
+wiki.md
 
 # C extensions
 *.so

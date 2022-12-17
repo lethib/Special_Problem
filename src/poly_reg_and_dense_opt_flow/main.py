@@ -2,10 +2,10 @@ from classes import *
 from functions import *
 
 ### Path to content folders ###
-original_frames = '/Users/thibault/Documents/Georgia Tech/GTL/Special_Problem/content/img/original/'
-edges_frames = '/Users/thibault/Documents/Georgia Tech/GTL/Special_Problem/content/img/edges_detected/'
-dense_flow_frames = '/Users/thibault/Documents/Georgia Tech/GTL/Special_Problem/content/img/dense_flow/'
-video_folder = '/Users/thibault/Documents/Georgia Tech/GTL/Special_Problem/content/videos/'
+original_frames = '/Special_Problem/content/img/original/'
+edges_frames = '/Special_Problem/content/img/edges_detected/'
+dense_flow_frames = '/Special_Problem/content/img/dense_flow/'
+video_folder = '/Special_Problem/content/videos/'
 
 ### Compute edge detection for each frames
 video = CreateVideos((400,320), 3)

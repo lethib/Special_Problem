@@ -25,4 +25,11 @@ However, this did not work well. The source still exists in the [`sobel_pxl_inte
 
 ### Polynomial Regression and Dense Optical Flow
 
-At this date (14/12/2022), the alogrithm works really well
+This is the main solution to the problem. It deals with Machine Learning (Polynomial Regression) and Computer Vision (Dense Optical Flow). 
+
+Librairies used are the following ones:
+
+- [**scikit-learn**](https://scikit-learn.org/stable/) for the Machine Learning part
+- [**OpenCV**](https://opencv.org) for the Computer Vision and Image Handling parts
+
+Please refer to the wiki of the project to have the notice of the project.
