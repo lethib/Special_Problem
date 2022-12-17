@@ -1,6 +1,18 @@
 from classes import *
 
-def select_points(processed_img, nb_points) -> list:
+def select_points(processed_img, nb_points: int) -> list:
+    """
+    #### Manually select the good points that corresponds to the interface.
+    ---
+    ### Parameters:
+
+    - `processed_img`: the image which will be shown to click on it
+    - `nb_points`: the number of points to click
+    ---
+    ### Output:
+
+    - `points` (list): list of the points clicked
+    """
     while True:
         points = []
         while len(points) < nb_points:
@@ -20,7 +32,20 @@ def select_points(processed_img, nb_points) -> list:
     plt.close('all')
     return points
 
-def compute_dense_optical_flow(img_files, output_folder_path, points_to_track):
+def compute_dense_optical_flow(img_files: str, output_folder_path: str, points_to_track: list) -> None:
+    """
+    #### Compute the Dense Optical flow frame by frame.
+    ---
+    ### Parameters:
+
+    - `img_files` (str): path to the image files
+    - `output_folder_path` (str): path to the output folder
+    - `points_to_track` (list): list of the points that will be track
+    ---
+    ### Output:
+
+    `None`
+    """
     files = glob.glob(img_files)
     # Lexicographically order your input array of strings (e.g. respect numbers in strings while ordering)
     files.sort(key=lambda x:[int(c) if c.isdigit() else c for c in re.split(r'(\d+)', x)])
